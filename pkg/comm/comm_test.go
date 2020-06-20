@@ -5,7 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/LimKianAn/go-comm/msg"
+	"github.com/LimKianAn/go-comm/pkg/msg"
+	"github.com/LimKianAn/go-comm/pkg/randsec"
 )
 
 func TestCycSendID(t *testing.T) {
@@ -26,10 +27,6 @@ func TestCycSendID(t *testing.T) {
 	if receivedID != ID {
 		t.Errorf("The ID should be %v, but we got %v", ID, receivedID)
 	}
-
-	// if diff := time.Unix(0, receivedMsg.TimeStampUnixNano).Sub(start); !withinTolerance(diff, dur, tolerance) {
-	// 	t.Errorf("The duration should be %v, but we got %v.", dur, diff)
-	// }
 }
 
 func TestCycSendDuration(t *testing.T) {
@@ -56,6 +53,40 @@ func withinTolerance(diff, base time.Duration, tolerance float64) bool {
 	return math.Abs(float64(diff-base)) < tolerance*float64(base)
 }
 
-// func isBetween(start, timepoint, end time.Time) bool {
-// 	return timepoint.After(start) && timepoint.Before(start)
-// }
+func TestReceive(t *testing.T) {
+	txN := 100 // number of tx
+	comm := Make(txN)
+	for i := 0; i < txN; i++ {
+		go comm.CycSend(i, randsec.Get(15))
+	}
+
+	msgSlice := []*msg.Msg{} // placeholder to save all received messages
+	comm.Receive(func(m *msg.Msg) {
+		msgSlice = append(msgSlice, m)
+	})
+
+	lastID := msgSlice[len(msgSlice)-1].ID // tx ID of the last message
+	counter := 0
+	for _, e := range msgSlice {
+		if e.ID == lastID {
+			counter++
+		}
+	}
+
+	if counter != 1 {
+		t.Error("The last tx ID should have only occured once.")
+	}
+
+	for i := 0; i < txN; i++ {
+		counter := 0
+		for _, e := range msgSlice {
+			if e.ID == i {
+				counter++
+			}
+		}
+
+		if counter == 0 {
+			t.Errorf("Each tx ID should have occured at least once, but tx ID %v has never occured.", i)
+		}
+	}
+}

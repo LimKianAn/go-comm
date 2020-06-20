@@ -1,4 +1,4 @@
-package randomsec
+package randsec
 
 import (
 	"testing"
