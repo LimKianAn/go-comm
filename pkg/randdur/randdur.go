@@ -1,4 +1,4 @@
-package randdur
+package randdur // random duration
 
 import (
 	"math/rand"

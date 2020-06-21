@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/LimKianAn/go-comm/pkg/msg"
-	"github.com/LimKianAn/go-comm/pkg/randsec"
+	"github.com/LimKianAn/go-comm/pkg/randdur"
 )
 
 func TestCycSendID(t *testing.T) {
@@ -57,7 +57,7 @@ func TestReceive(t *testing.T) {
 	txN := 100 // number of tx
 	comm := New(txN)
 	for i := 0; i < txN; i++ {
-		go comm.CycSend(i, randsec.Get(15))
+		go comm.CycSend(i, randdur.Sec(15))
 	}
 
 	msgSlice := []*msg.Msg{} // placeholder to save all received messages
