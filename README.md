@@ -13,6 +13,6 @@ go clean -testcache && go test ./... -cover
 
 ### Build from the remote repository
 ```
-go get github.com/LimKianAn/go-comm/cmd/comm # The generated binary is in $GOPATH/bin
-comm <tx-number> # 
+go get github.com/LimKianAn/go-comm/cmd/comm # The generated binary is in "$GOPATH/bin".
+comm <tx-number>
 ```
