@@ -13,7 +13,7 @@ type Comm struct { // communication
 	done chan struct{} // only for signaling the end of communication
 }
 
-func Make(txN int) *Comm { // allocates and initializes the channels
+func New(txN int) *Comm { // allocates and initializes the channels
 	return &Comm{txN, make(chan *msg.Msg), make(chan struct{})}
 }
 
@@ -22,7 +22,7 @@ func (comm *Comm) CycSend(ID int, d time.Duration) {
 	for {
 		select {
 		case <-ticker.C:
-			comm.msg <- msg.Make(ID)
+			comm.msg <- msg.New(ID)
 		case <-comm.done: // Rx has received a complete set.
 			return
 		default: // non-blocking

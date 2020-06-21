@@ -8,14 +8,14 @@ import (
 
 	"github.com/LimKianAn/go-comm/pkg/comm"
 	"github.com/LimKianAn/go-comm/pkg/msg"
-	"github.com/LimKianAn/go-comm/pkg/randsec"
+	"github.com/LimKianAn/go-comm/pkg/randdur"
 )
 
 func main() {
 	n := getTxN()
-	comm := comm.Make(n)
+	comm := comm.New(n)
 	for i := 0; i < n; i++ {
-		go comm.CycSend(i, randsec.Get(10))
+		go comm.CycSend(i, randdur.Sec(10))
 	}
 
 	comm.Receive(print)

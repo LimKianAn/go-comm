@@ -11,9 +11,9 @@ import (
 
 func TestCycSendID(t *testing.T) {
 
-	comm := Make(1) // single tx
-	ID := 0         // single tx
-	sec := 1        // The duration is 1 second.
+	comm := New(1) // single tx
+	ID := 0        // single tx
+	sec := 1       // The duration is 1 second.
 	dur := time.Duration(sec) * time.Second
 
 	receivedMsg := &msg.Msg{}
@@ -32,9 +32,9 @@ func TestCycSendID(t *testing.T) {
 func TestCycSendDuration(t *testing.T) {
 	tolerance := 0.05
 
-	comm := Make(1) // single tx
-	ID := 0         // single tx
-	sec := 1        // The duration is 1 second.
+	comm := New(1) // single tx
+	ID := 0        // single tx
+	sec := 1       // The duration is 1 second.
 	dur := time.Duration(sec) * time.Second
 
 	go comm.CycSend(ID, dur)
@@ -55,7 +55,7 @@ func withinTolerance(diff, base time.Duration, tolerance float64) bool {
 
 func TestReceive(t *testing.T) {
 	txN := 100 // number of tx
-	comm := Make(txN)
+	comm := New(txN)
 	for i := 0; i < txN; i++ {
 		go comm.CycSend(i, randsec.Get(15))
 	}

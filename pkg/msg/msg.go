@@ -10,7 +10,7 @@ type Msg struct {
 	TimeStampUnixNano int64
 }
 
-func Make(txID int) *Msg {
+func New(txID int) *Msg {
 	return &Msg{txID, time.Now().UnixNano()}
 }
 
