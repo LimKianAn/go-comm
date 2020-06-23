@@ -17,10 +17,9 @@ func TestCycSendID(t *testing.T) {
 	dur := time.Duration(sec) * time.Second
 
 	receivedMsg := &msg.Msg{}
-	// start := time.Now() // start of the communication
 	go comm.CycSend(ID, dur)
 	comm.Receive(func(m *msg.Msg) {
-		receivedMsg = m //
+		receivedMsg = m
 	})
 
 	receivedID := receivedMsg.ID
