@@ -36,7 +36,8 @@ func (comm *Comm) Receive(f msg.Process) { // txN means how many tx in toal.
 		m := <-comm.msg
 		f(m)
 		if bools[m.ID] = true; bools.AllTrue() { // checks if the rx has received a complete set
-			comm.done <- struct{}{}
+			close(comm.done)
+			// comm.done <- struct{}{} // same effect as the previous line
 			return
 		}
 	}
