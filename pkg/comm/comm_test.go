@@ -10,7 +10,6 @@ import (
 )
 
 func TestCycSendID(t *testing.T) {
-
 	comm := New(1) // single tx
 	ID := 0        // single tx
 	sec := 1       // The duration is 1 second.
